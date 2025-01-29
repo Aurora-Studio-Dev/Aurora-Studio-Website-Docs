@@ -1,0 +1,111 @@
+---
+title: 每日一言
+description: 本教程教你如何调用每日一言接口。
+---
+
+:::tip
+此接口调用了 [zenquotes](https://zenquotes.io/api/random) 和 [quotable](https://api.quotable.io/random) , 
+并统一了他们的返回值，均为第三方服务，我们仅提供了集成接口，如有问题应当自行阅读相关文档。
+:::
+
+## 请求
+一言的 API 接口为 <code>http://39.101.179.249:1145//v1/open_stars_api/daily-sentence</code>
+使用 <code>GET</code> 方法请求，请求返回值为 <code>JSON</code> .
+
+### 参数
+| 参数名称 | 参数类型 | 可选项 | 例子 |
+| -------- | -------- | -------- | -------- |
+| <code>type</code> | <code>字符串</code> | <code>zenquotes // quotable</code> | 无 |
+
+### 发起一个请求
+
+<code>GET</code> Url: http://39.101.179.249:1145//v1/open_stars_api/daily-sentence
+
+``` JSON
+{
+    'type': 'zenquotes'
+}
+```
+
+## 返回值
+### 参数
+| 参数名称 | 参数类型 | 解释 |
+| -------- | -------- | -------- |
+| <code>author</code> | <code>字符串</code> | 一言作者/出处 |
+| <code>quote</code> | <code>字符串</code> | 一言内容 |
+| <code>error</code> | <code>字符串</code> | 错误，详见本页的 返回值-错误类型 部分 |
+
+### 错误类型
+| 错误字符串内容 | 解释 |
+| -------- | -------- |
+| <code>Missing 'type' query parameter.</code> | 发送请求时没有携带<code>type</code>参数。详见本页的 请求-参数 部分 |
+
+## 实战
+:::tip
+示例代码不一定准确,但方法大致相同。
+:::
+### 使用 Python 调用 API 接口
+- 首先，安装 <code>Requests</code> 模块：
+```BASH
+pip install requests
+```
+
+- 在 py 文件输入以下代码：
+```Python
+# main.py
+import requests as req
+url = 'http://39.101.179.249:1145//v1/open_stars_api/daily-sentence'
+headers = {
+    'type':'zenquotes'
+}
+response = req.get(url,headers=headers)
+
+print(response.json())
+```
+
+### 使用 JavaScript 调用 API 接口
+- 在JS文件输入以下代码：
+```JavaScript
+// main.js
+let xhr = new XMLHttpRequest();
+xhr.open("GET", "http://39.101.179.249:1145//v1/open_stars_api/daily-sentence", true);
+xhr.setRequestHeader("type", "zenquotes");
+xhr.onreadystatechange = function() {
+  if (xhr.readyState === 4 && xhr.status === 200) {
+    console.log("Response:", xhr.responseText);
+  }
+};
+let postData = { key: "value" };
+xhr.send(JSON.stringify(postData));
+```
+
+### 使用 CSharp (C#) 调用 API 接口
+- 在 cs 文件输入以下代码：
+```CSharp
+// main.cs
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Net.Http;
+ 
+namespace ConsoleApplication
+{
+    class Program
+    {
+        private static readonly HttpClient client = new HttpClient();
+        static void Main(string[] args)
+        {
+            var values = new Dictionary
+            {
+               { "type", "zenquotes" }
+            var content = new FormUrlEncodedContent(values);
+            var response = await client.GetStringAsync("http://39.101.179.249:1145//v1/open_stars_api/daily-sentence", content);
+            var responseString = await response.Content.ReadAsStringAsync();
+        }
+    }
+}
+```
+
+到此为止。

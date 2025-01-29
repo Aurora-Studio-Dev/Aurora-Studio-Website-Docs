@@ -1,0 +1,110 @@
+---
+title: Daily Sentence
+---
+
+:::tip
+This interface calls [zenquotes](https://zenquotes.io/api/random) and [quotable](https://api.quotable.io/random), 
+And unify their return values, all of which are third-party services, we only provide an integration interface, if you have any questions, you should read the relevant documentation.
+:::
+
+## Request
+The API interface of Yiyan is <code>http://39.101.179.249:1145//v1/open_stars_api/daily-sentence</code>
+Use the <code>GET</code> method to request a request that returns a <code>JSON</code> .
+
+### Parameter
+| Parameter name | Parameter type | Option | Example |
+| -------- | -------- | -------- | -------- |
+| <code>type</code> | <code>String</code> | <code>zenquotes // quotable</code> | None |
+
+### Send a request
+
+<code>GET</code> Url: http://39.101.179.249:1145//v1/open_stars_api/daily-sentence
+
+``` JSON
+{
+    'type': 'zenquotes'
+}
+```
+
+## Return value
+### Parameter
+| Parameter name | Parameter type | Explanation |
+| -------- | -------- | -------- |
+| <code>author</code> | <code>String</code> | Author/Source |
+| <code>quote</code> | <code>String</code> | In a word, the content |
+| <code>error</code> | <code>String</code> | Error, see the Return Value-Error Type section of this page |
+
+### Error type
+| Error string content | Explanation |
+| -------- | -------- |
+| <code>Missing 'type' query parameter.</code> | The <code>type</code> parameter is not carried when the request is sent. For details, see the Request-Parameter section of this page |
+
+## Actual combat
+:::tip
+The sample code isn't necessarily accurate, but the approach is pretty much the same.
+:::
+### Use Python to call the API interface
+- First, install the <code>Requests</code> module:
+```BASH
+pip install requests
+```
+
+- Enter the following code in the py file:
+```Python
+# main.py
+import requests as req
+url = 'http://39.101.179.249:1145//v1/open_stars_api/daily-sentence'
+headers = {
+    'type':'zenquotes'
+}
+response = req.get(url,headers=headers)
+
+print(response.json())
+```
+
+### Use JavaScript to call the API interface
+- Enter the following code in the JS file:
+```JavaScript
+// main.js
+let xhr = new XMLHttpRequest();
+xhr.open("GET", "http://39.101.179.249:1145//v1/open_stars_api/daily-sentence", true);
+xhr.setRequestHeader("type", "zenquotes");
+xhr.onreadystatechange = function() {
+  if (xhr.readyState === 4 && xhr.status === 200) {
+    console.log("Response:", xhr.responseText);
+  }
+};
+let postData = { key: "value" };
+xhr.send(JSON.stringify(postData));
+```
+
+### Use CSharp (C#) to call the API interface
+- Enter the following code in the CS file:
+```CSharp
+// main.cs
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Net.Http;
+ 
+namespace ConsoleApplication
+{
+    class Program
+    {
+        private static readonly HttpClient client = new HttpClient();
+        static void Main(string[] args)
+        {
+            var values = new Dictionary
+            {
+               { "type", "zenquotes" }
+            var content = new FormUrlEncodedContent(values);
+            var response = await client.GetStringAsync("http://39.101.179.249:1145//v1/open_stars_api/daily-sentence", content);
+            var responseString = await response.Content.ReadAsStringAsync();
+        }
+    }
+}
+```
+
+That all of this page.
